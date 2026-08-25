@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>สมุดรายชื่อลูกศิษสำนักอาจารย์คม</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@400;600;700&display=swap');
+
+:root{
+  --gold:#d6a63a;
+  --gold-light:#f5d77b;
+  --gold-dark:#72521b;
+  --black:#070605;
+  --panel:#151008;
+  --text:#f5e8c5;
+  --muted:#b59b62;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 50% 0%,#2c1d07 0%,#0b0906 45%,#030303 100%);
+  color:var(--text);
+  font-family:"Noto Serif Thai",serif;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:14px;
+  border:1px solid #74551e;
+  border-radius:20px;
+  opacity:.55;
+  pointer-events:none;
+}
+
+.container{
+  width:min(1100px,100%);
+  margin:auto;
+  padding:30px 18px 60px;
+}
+
+/* HEADER */
+
+header{
+  text-align:center;
+  padding:15px 0 30px;
+}
+
+.logo{
+  width:160px;
+  height:160px;
+  margin:auto;
+  border:2px solid var(--gold);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:
+    0 0 35px #9b701c55,
+    inset 0 0 30px #9b701c33;
+}
+
+.logo-inner{
+  width:128px;
+  height:128px;
+  border:1px solid var(--gold);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--gold-light);
+  font-size:40px;
+  font-weight:700;
+  text-shadow:0 0 12px #b47c22;
+}
+
+h1{
+  color:var(--gold-light);
+  font-size:clamp(26px,5vw,45px);
+  margin:18px 0 4px;
+  text-shadow:0 0 15px #9c711f44;
+}
+
+.subtitle{
+  color:var(--muted);
+  font-size:14px;
+}
+
+/* BUTTONS */
+
+.toolbar{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+button{
+  font-family:inherit;
+  border:1px solid var(--gold);
+  background:#211707;
+  color:var(--gold-light);
+  padding:9px 15px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#39270b;
+}
+
+.primary{
+  background:#704d11;
+  color:#fff1c4;
+}
+
+.danger{
+  border-color:#9c5145;
+  color:#efb0a4;
+}
+
+/* STATUS */
+
+#status{
+  text-align:center;
+  color:var(--muted);
+  min-height:25px;
+  margin-bottom:15px;
+}
+
+/* CARDS */
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:16px;
+}
+
+.card{
+  background:linear-gradient(145deg,#1b1409,#0d0a06);
+  border:1px solid var(--gold-dark);
+  border-radius:14px;
+  padding:17px;
+  box-shadow:0 12px 35px #0009;
+}
+
+.card h2{
+  color:var(--gold-light);
+  margin:0;
+  font-size:21px;
+}
+
+.card-description{
+  color:#a98c50;
+  font-size:13px;
+  margin-top:3px;
+}
+
+.member-list{
+  list-style:none;
+  padding:0;
+  margin:12px 0 0;
+}
+
+.member{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  border-top:1px solid #3d2d13;
+  padding:9px 0;
+}
+
+.number{
+  color:#94702b;
+  min-width:28px;
+}
+
+.member-name{
+  flex:1;
+}
+
+.member-actions{
+  display:none;
+  gap:5px;
+}
+
+.owner .member-actions{
+  display:flex;
+}
+
+.member-actions button{
+  padding:4px 7px;
+  font-size:12px;
+}
+
+.add-button{
+  width:100%;
+  margin-top:12px;
+  display:none;
+}
+
+.owner .add-button{
+  display:block;
+}
+
+.empty{
+  color:#806e49;
+  font-size:14px;
+  padding:8px 0;
+}
+
+/* FOOTER */
+
+footer{
+  text-align:center;
+  color:#765f36;
+  margin-top:35px;
+  font-size:13px;
+}
+
+/* DIALOG */
+
+dialog{
+  width:min(420px,calc(100% - 30px));
+  border:1px solid var(--gold);
+  border-radius:14px;
+  background:#140e06;
+  color:var(--text);
+  padding:22px;
+}
+
+dialog::backdrop{
+  background:#000c;
+}
+
+input{
+  width:100%;
+  padding:12px;
+  border-radius:8px;
+  border:1px solid var(--gold-dark);
+  background:#080706;
+  color:white;
+  font-family:inherit;
+  margin:8px 0 14px;
+}
+
+.modal-buttons{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+  .container{
+    padding-top:25px;
+  }
+
+  .logo{
+    width:135px;
+    height:135px;
+  }
+
+  .logo-inner{
+    width:108px;
+    height:108px;
+    font-size:32px;
+  }
+
+  h1{
+    font-size:27px;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+
+  <div class="logo">
+    <div class="logo-inner">
+      ยันต์
+    </div>
+  </div>
+
+  <h1>
+    สมุดรายชื่อลูกศิษสำนักอาจารย์คม
+  </h1>
+
+  <div class="subtitle">
+    ทะเบียนศิษย์ • อักขระ • ครูบาอาจารย์
+  </div>
+
+</header>
+
+<div class="toolbar">
+
+  <button id="ownerButton">
+    🔐 โหมดเจ้าของ
+  </button>
+
+  <button id="logoutButton" style="display:none">
+    ออกจากโหมดเจ้าของ
+  </button>
+
+  <button id="backupButton" style="display:none">
+    สำรองรายชื่อ
+  </button>
+
+</div>
+
+<div id="status">
+  กำลังโหลดรายชื่อ...
+</div>
+
+<div id="groups" class="grid"></div>
+
+<footer>
+  สมุดรายชื่อลูกศิษสำนักอาจารย์คม
+</footer>
+
+</div>
+
+
+<!-- LOGIN -->
+
+<dialog id="loginDialog">
+
+  <form id="loginForm">
+
+    <h2 style="color:var(--gold-light)">
+      เข้าสู่โหมดเจ้าของ
+    </h2>
+
+    <p style="color:var(--muted)">
+      ใส่รหัสเจ้าของเพื่อเพิ่ม แก้ไข หรือลบรายชื่อ
+    </p>
+
+    <input
+      id="adminKey"
+      type="password"
+      placeholder="รหัสเจ้าของ"
+      required
+    >
+
+    <div class="modal-buttons">
+
+      <button
+        type="button"
+        onclick="loginDialog.close()"
+      >
+        ยกเลิก
+      </button>
+
+      <button
+        class="primary"
+        type="submit"
+      >
+        เข้าสู่ระบบ
+      </button>
+
+    </div>
+
+  </form>
+
+</dialog>
+
+
+<script>
+
+const GROUPS = [
+
+  {
+    key:"teacher",
+    title:"อาจารย์",
+    description:"ครูบาอาจารย์"
+  },
+
+  {
+    key:"master",
+    title:"ศิษย์เอก",
+    description:"สายศิษย์เอก"
+  },
+
+  {
+    key:"student",
+    title:"ศิษย์ใน",
+    description:"ศิษย์ในสำนัก"
+  },
+
+  {
+    key:"r1",
+    title:"รุ่นที่ 1 — มหาฤกษ์",
+    description:"มหาฤกษ์"
+  },
+
+  {
+    key:"r2",
+    title:"รุ่นที่ 2 — เทวาสถิต",
+    description:"เทวาสถิต"
+  },
+
+  {
+    key:"r3",
+    title:"รุ่นที่ 3 — นะจังงัง",
+    description:"นะจังงัง"
+  },
+
+  {
+    key:"r4",
+    title:"รุ่นที่ 4 — แคล้วพ้นเคราะห์",
+    description:"แคล้วพ้นเคราะห์"
+  },
+
+  {
+    key:"r5",
+    title:"รุ่นที่ 5 — สุเวทท้าวสุวรรณ์",
+    description:"สุเวทท้าวสุวรรณ์"
+  }
+
+];
+
+let data = {};
+let isOwner = false;
+
+
+/* API */
+
+async function api(url, options = {}){
+
+  const response = await fetch(
+    url,
+    {
+      ...options,
+
+      credentials:"same-origin",
+
+      headers:{
+        "Content-Type":"application/json",
+        ...(options.headers || {})
+      }
+    }
+  );
+
+  const result =
+    await response
+      .json()
+      .catch(
+        () => ({
+          error:"เซิร์ฟเวอร์ตอบกลับไม่ถูกต้อง"
+        })
+      );
+
+  if(!response.ok){
+
+    throw new Error(
+      result.error ||
+      "เกิดข้อผิดพลาด"
+    );
+
+  }
+
+  return result;
+
+}
+
+
+/* SECURITY */
+
+function escapeHtml(value){
+
+  return String(value)
+    .replace(/[&<>"']/g,function(char){
+
+      const map = {
+
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#39;"
+
+      };
+
+      return map[char];
+
+    });
+
+}
+
+
+/* RENDER */
+
+function render(){
+
+  document.body.classList.toggle(
+    "owner",
+    isOwner
+  );
+
+  document.getElementById(
+    "ownerButton"
+  ).style.display =
+    isOwner ? "none" : "inline-block";
+
+  document.getElementById(
+    "logoutButton"
+  ).style.display =
+    isOwner ? "inline-block" : "none";
+
+  document.getElementById(
+    "backupButton"
+  ).style.display =
+    isOwner ? "inline-block" : "none";
+
+
+  document.getElementById(
+    "status"
+  ).textContent =
+    isOwner
+      ? "🔓 อยู่ในโหมดเจ้าของ"
+      : "👁️ โหมดดูรายชื่อ";
+
+
+  const container =
+    document.getElementById("groups");
+
+  container.innerHTML = "";
+
+
+  GROUPS.forEach(group => {
+
+    const members =
+      data[group.key] || [];
+
+
+    const card =
+      document.createElement("section");
+
+    card.className = "card";
+
+
+    card.innerHTML = `
+
+      <h2>
+        ${escapeHtml(group.title)}
+      </h2>
+
+      <div class="card-description">
+        ${escapeHtml(group.description)}
+        • ${members.length} รายชื่อ
+      </div>
+
+      <ul class="member-list"></ul>
+
+      <button class="add-button primary">
+        ＋ เพิ่มรายชื่อ
+      </button>
+
+    `;
+
+
+    const list =
+      card.querySelector(".member-list");
+
+
+    if(members.length === 0){
+
+      list.innerHTML =
+        `<li class="empty">
+          ยังไม่มีรายชื่อ
+        </li>`;
+
+    }
+
+
+    members.forEach(
+      (member,index) => {
+
+        const li =
+          document.createElement("li");
+
+        li.className = "member";
+
+
+        li.innerHTML = `
+
+          <span class="number">
+            ${index + 1}.
+          </span>
+
+          <span class="member-name">
+            ${escapeHtml(member.name)}
+          </span>
+
+          <span class="member-actions">
+
+            <button class="edit">
+              แก้ไข
+            </button>
+
+            <button class="danger delete">
+              ลบ
+            </button>
+
+          </span>
+
+        `;
+
+
+        li.querySelector(".edit")
+          .onclick = () =>
+            editMember(
+              group.key,
+              member
+            );
+
+
+        li.querySelector(".delete")
+          .onclick = () =>
+            deleteMember(
+              group.key,
+              member
+            );
+
+
+        list.appendChild(li);
+
+      }
+    );
+
+
+    card.querySelector(".add-button")
+      .onclick = () =>
+        addMember(
+          group.key,
+          group.title
+        );
+
+
+    container.appendChild(card);
+
+  });
+
+}
+
+
+/* LOAD */
+
+async function loadData(){
+
+  try{
+
+    const result =
+      await api("/api/data");
+
+    data =
+      result.data || {};
+
+    isOwner =
+      !!result.admin;
+
+    render();
+
+  }
+  catch(error){
+
+    document.getElementById(
+      "status"
+    ).textContent =
+      "⚠️ " + error.message;
+
+  }
+
+}
+
+
+/* LOGIN */
+
+const loginDialog =
+  document.getElementById(
+    "loginDialog"
+  );
+
+
+document.getElementById(
+  "ownerButton"
+).onclick = () => {
+
+  loginDialog.showModal();
+
+};
+
+
+document.getElementById(
+  "loginForm"
+).onsubmit =
+  async function(event){
+
+    event.preventDefault();
+
+
+    const key =
+      document.getElementById(
+        "adminKey"
+      ).value;
+
+
+    try{
+
+      await api(
+        "/api/admin/unlock",
+        {
+          method:"POST",
+
+          body:JSON.stringify({
+            key:key
+          })
+        }
+      );
+
+
+      document.getElementById(
+        "adminKey"
+      ).value = "";
+
+
+      loginDialog.close();
+
+
+      await loadData();
+
+    }
+    catch(error){
+
+      alert(
+        error.message
+      );
+
+    }
+
+  };
+
+
+/* LOGOUT */
+
+document.getElementById(
+  "logoutButton"
+).onclick =
+  async function(){
+
+    try{
+
+      await api(
+        "/api/admin/lock",
+        {
+          method:"POST"
+        }
+      );
+
+      await loadData();
+
+    }
+    catch(error){
+
+      alert(
+        error.message
+      );
+
+    }
+
+  };
+
+
+/* ADD */
+
+async function addMember(
+  group,
+  title
+){
+
+  const name =
+    prompt(
+      "เพิ่มรายชื่อใน " +
+      title +
+      "\n\nกรอกชื่อ-นามสกุล:"
+    );
+
+
+  if(
+    !name ||
+    !name.trim()
+  ){
+
+    return;
+
+  }
+
+
+  try{
+
+    await api(
+      "/api/data",
+      {
+        method:"POST",
+
+        body:JSON.stringify({
+
+          group:group,
+
+          name:name.trim()
+
+        })
+      }
+    );
+
+
+    await loadData();
+
+  }
+  catch(error){
+
+    alert(
+      error.message
+    );
+
+  }
+
+}
+
+
+/* EDIT */
+
+async function editMember(
+  group,
+  member
+){
+
+  const name =
+    prompt(
+      "แก้ไขรายชื่อ:",
+      member.name
+    );
+
+
+  if(
+    !name ||
+    !name.trim() ||
+    name.trim() === member.name
+  ){
+
+    return;
+
+  }
+
+
+  try{
+
+    await api(
+      `/api/data/${group}/${member.id}`,
+
+      {
+        method:"PATCH",
+
+        body:JSON.stringify({
+
+          name:name.trim()
+
+        })
+      }
+    );
+
+
+    await loadData();
+
+  }
+  catch(error){
+
+    alert(
+      error.message
+    );
+
+  }
+
+}
+
+
+/* DELETE */
+
+async function deleteMember(
+  group,
+  member
+){
+
+  const confirmed =
+    confirm(
+      `ต้องการลบ "${member.name}" ใช่หรือไม่?`
+    );
+
+
+  if(!confirmed){
+
+    return;
+
+  }
+
+
+  try{
+
+    await api(
+      `/api/data/${group}/${member.id}`,
+
+      {
+        method:"DELETE"
+      }
+    );
+
+
+    await loadData();
+
+  }
+  catch(error){
+
+    alert(
+      error.message
+    );
+
+  }
+
+}
+
+
+/* BACKUP */
+
+document.getElementById(
+  "backupButton"
+).onclick =
+  async function(){
+
+    try{
+
+      const result =
+        await api("/api/backup");
+
+
+      const blob =
+        new Blob(
+          [
+            JSON.stringify(
+              result,
+              null,
+              2
+            )
+          ],
+          {
+            type:"application/json"
+          }
+        );
+
+
+      const link =
+        document.createElement("a");
+
+
+      link.href =
+        URL.createObjectURL(blob);
+
+
+      link.download =
+        "yantra-student-backup.json";
+
+
+      link.click();
+
+    }
+    catch(error){
+
+      alert(
+        error.message
+      );
+
+    }
+
+  };
+
+
+/* START */
+
+loadData();
+
+</script>
+
+</body>
+</html>
